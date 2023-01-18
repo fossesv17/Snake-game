@@ -1,0 +1,15 @@
+#score {
+    width: 290px;
+    margin: auto;
+    background-color: green;
+    padding-inline: 5px;
+    color: black;
+}
+
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
