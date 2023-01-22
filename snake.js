@@ -32,7 +32,7 @@ function init() {
     changingDir = false;
     changingDir2 = false;
     snake = [{x: 150, y: 150}, {x: 140, y: 150}, {x: 130, y: 150}, {x: 120, y: 150}, {x: 110, y: 150},];
-    snake2 = [{x: 150, y: 100}, {x: 140, y: 100}, {x: 130, y: 100}, {x: 100, y: 100}, {x: 110, y: 100},];
+    snake2 = [{x: 150, y: 100}, {x: 140, y: 100}, {x: 130, y: 100}, {x: 120, y: 100}, {x: 110, y: 100},];
     snakes = [snake, snake2];
 }
 
@@ -165,7 +165,7 @@ function drawFood() {
 }
 
 function moveSnake() {
-    const hd = {x: snake[0].x + dx, y: snake[0].y + dy}
+    let hd = teleport(snake) || {x: snake[0].x + dx, y: snake[0].y + dy};
     snake.unshift(hd);
     const snakeGetFood = snake[0].x === foodX && snake[0].y === foodY;
     changingDir = false;
@@ -179,8 +179,8 @@ function moveSnake() {
     }
 }
 
-function moveSnake2() {
-    const hd = {x: snake2[0].x + dx2, y: snake2[0].y + dy2}
+function moveSnake2(tp = false) {
+    const hd = teleport(snake2) || {x: snake2[0].x + dx2, y: snake2[0].y + dy2}
     snake2.unshift(hd);
     const snakeGetFood = snake2[0].x === foodX && snake2[0].y === foodY;
     changingDir2 = false;
@@ -206,33 +206,25 @@ function clearCanvas() {
     ctx.strokeRect(0,0, canvas.width, canvas.height);
 }
 
-function teleport() {
-    snakes.forEach((snake) => {
-        const leftWall = snake[0].x < 0;
-        const rightWall = snake[0].x > canvas.width - 10;
-        const topWall = snake[0].y < 0;
-        const botWall = snake[0].y > canvas.height - 10;
-        if (leftWall) {
-            snake.forEach((snakePart) => {
-                snakePart.x = canvas.width - 10;
-            })
-        }
-        if (rightWall) {
-            snake.forEach((snakePart) => {
-                snakePart.x = 0;
-            })
-        }
-        if (topWall) {
-            snake.forEach((snakePart) => {
-                snakePart.y = canvas.height - 10;
-            })
-        }
-        if (botWall) {
-            snake.forEach((snakePart) => {
-                snakePart.y = 0;
-            })
-        }
-    })
+function teleport(snake) {    
+    const leftWall = snake[0].x < 0;
+    const rightWall = snake[0].x > canvas.width - 10;
+    const topWall = snake[0].y < 0;
+    const botWall = snake[0].y > canvas.height - 10;
+    let head = null;
+    if (leftWall) {
+        head = {x: canvas.width - 10, y: snake[0].y};
+    }
+    if (rightWall) {
+        head = {x: 0, y: snake[0].y};
+    }
+    if (topWall) {
+        head = {x: snake[0].x, y: canvas.height - 10};
+    }
+    if (botWall) {
+        head = {x: snake[0].x, y: 0};
+    }
+    return head;
 }
 
 function collision_itself(snake) {
@@ -275,7 +267,6 @@ function main() {
     setTimeout(function onTick() {
         clearCanvas();
         drawFood();
-        teleport();
         moveSnakes();
         drawSnakes();
         main();
