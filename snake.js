@@ -1,6 +1,7 @@
 const canvas = document.getElementById('snakeCanvas');
 const ctx = canvas.getContext('2d');
 const score_div = document.getElementById('score');
+const score_div2 = document.getElementById('score2');
 
 let dx = 10;
 let dy = 0;
@@ -9,6 +10,7 @@ let dy2 = 0;
 let foodX = randomTen(0, canvas.width - 10);
 let foodY = randomTen(0, canvas.height - 10);
 let score = 0;
+let score2 = 0;
 let changingDir = false;
 let changingDir2 = false;
 
@@ -26,6 +28,7 @@ function init() {
     foodX = randomTen(0, canvas.width - 10);
     foodY = randomTen(0, canvas.height - 10);
     score = 0;
+    score2 = 0;
     changingDir = false;
     changingDir2 = false;
     snake = [{x: 150, y: 150}, {x: 140, y: 150}, {x: 130, y: 150}, {x: 120, y: 150}, {x: 110, y: 150},];
@@ -169,7 +172,7 @@ function moveSnake() {
     if (snakeGetFood) {
         multiCreateFood();
         score += 1;
-        score_div.innerHTML = 'score: ' + score;
+        score_div.innerHTML = 'score 1P: ' + score;
     }
     else {
         snake.pop();
@@ -183,8 +186,8 @@ function moveSnake2() {
     changingDir2 = false;
     if (snakeGetFood) {
         multiCreateFood();
-        score += 1;
-        score_div.innerHTML = 'score: ' + score;
+        score2 += 1;
+        score_div2.innerHTML = 'score 2P: ' + score;
     }
     else {
         snake2.pop();
@@ -242,10 +245,16 @@ function collision_itself(snake) {
 }
 
 function collision_between() {
-    for (let i = 4; i < snake2.length; i++){
-        const collision = snake[0].x === snake2[i].x && snake[0].y === snake2[i].y;
+    for (let i = 0; i < snake2.length; i++) {
+        const collision = snake[0].x === snake2[i].x && snake[0].y === snake2[i].y
         if (collision) {
-            console.log('AWAS');
+            return true;
+        }
+    }
+    for (let i = 0; i < snake.length; i++) {
+        const collision = snake2[0].x === snake[i].x && snake2[0].y === snake[i].y
+        if (collision) {
+            return true;
         }
     }
 }
