@@ -34,6 +34,8 @@ function init() {
     snake = [{x: 150, y: 150}, {x: 140, y: 150}, {x: 130, y: 150}, {x: 120, y: 150}, {x: 110, y: 150},];
     snake2 = [{x: 150, y: 100}, {x: 140, y: 100}, {x: 130, y: 100}, {x: 120, y: 100}, {x: 110, y: 100},];
     snakes = [snake, snake2];
+    score_div.textContent = 'score 1P: ' + score;
+    score_div2.textContent = 'score 2P: ' + score2;
 }
 
 
@@ -206,7 +208,7 @@ function clearCanvas() {
     ctx.strokeRect(0,0, canvas.width, canvas.height);
 }
 
-function teleport(snake) {    
+function teleport(snake) {
     const leftWall = snake[0].x < 0;
     const rightWall = snake[0].x > canvas.width - 10;
     const topWall = snake[0].y < 0;
