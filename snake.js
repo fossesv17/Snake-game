@@ -237,7 +237,9 @@ function collision_itself(snake) {
         }
     }
 }
-
+// ADD WINNING CONDITION
+// HEAD ON COLLISION = DRAW
+// ANYTHING ELSE DEPENDS ON WHO CRASH ON WHO
 function collision_between() {
     for (let i = 0; i < snake2.length; i++) {
         const collision = snake[0].x === snake2[i].x && snake[0].y === snake2[i].y
